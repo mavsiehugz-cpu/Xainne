@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday ❤️</title>
+
+<style>
+    .pop-heart{
+    position:absolute;
+    font-size:18px;
+    animation:popFloat 2.5s ease-out forwards;
+    pointer-events:none;
+    z-index:999;
+}
+
+@keyframes floatHeart{
+    0%{
+        transform:translate(0, 110vh) scale(0.8);
+        opacity:0;
+    }
+
+    10%{
+        opacity:1;
+    }
+
+    50%{
+        transform:translate(20px, 0vh) scale(1);
+    }
+
+    100%{
+        transform:translate(-20px, -120vh) scale(1.2);
+        opacity:0;
+    }
+}
+    body{
+    position:relative;
+}
+    
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    height:100vh;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#F5E6D3;
+    font-family:Georgia, serif;
+}
+
+/* Hearts */
+.heart{
+    position:absolute;
+    color:#d94b4b;
+    opacity:.7;
+    animation:floatHeart linear infinite;
+}
+
+@keyframes floatHeart{
+    from{transform:translateY(110vh);}
+    to{transform:translateY(-20vh);}
+}
+
+/* Sparkles */
+.sparkle{
+    position:absolute;
+    color:gold;
+    animation:twinkle 2s infinite;
+}
+
+@keyframes twinkle{
+    0%,100%{opacity:.2;transform:scale(.8);}
+    50%{opacity:1;transform:scale(1.3);}
+}
+
+/* Container */
+.container{
+    text-align:center;
+    z-index:10;
+}
+
+/* Button */
+#openBtn{
+    padding:16px 40px;
+    border:none;
+    border-radius:50px;
+    background:#d94b4b;
+    color:white;
+    font-size:22px;
+    cursor:pointer;
+    transition:.3s;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+
+#openBtn:hover{
+    transform:scale(1.08);
+}
+
+/* Envelope wrapper */
+.envelope-wrapper{
+    display:none;
+}
+
+.envelope{
+    position:relative;
+    width:350px;
+    height:240px;
+    margin:auto;
+    overflow:visible; /* FIX */
+}
+
+
+/* Back */
+.back{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:#e8c19b;
+    z-index:1;
+}
+
+.letter{
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        black 60%,
+        transparent 100%
+    );
+    mask-image: linear-gradient(
+        to bottom,
+        black 60%,
+        transparent 100%
+    );
+    
+    position:absolute;
+    width:300px;
+    height:320px;
+
+    left:25px;
+    bottom:0;
+
+    background:white;
+    border-radius:10px;
+    padding:20px;
+
+    overflow-y:auto;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+
+    z-index:2;
+
+    /* 🔥 FULLY HIDDEN INSIDE ENVELOPE */
+    transform:translateY(180px);
+    opacity:0;
+
+    transition:1.6s ease;
+    
+}
+
+/* Front pocket */
+.front{
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:65%;
+    background:#d9ab7c;
+    clip-path:polygon(0 0, 50% 55%, 100% 0, 100% 100%, 0 100%);
+
+    z-index:3;
+}
+
+
+.flap{
+    position:bottom;
+    top:0;
+    width:0;
+    height:0;
+
+    border-left:175px solid transparent;
+    border-right:175px solid transparent;
+    border-top:120px solid #c89463;
+
+    transform-origin:top;
+    transition:1.2s ease;
+
+    z-index:5; /* 🔥 highest layer */
+}
+
+/* OPEN */
+.envelope.open .flap{
+    transform:rotateX(180deg);
+}
+
+.envelope.open .letter{
+    transform:translateY(-30px); /* moves upward out of envelope */
+    opacity:1;
+}
+
+/* Text */
+.letter h2{
+    color:#d94b4b;
+    margin-bottom:10px;
+}
+
+.letter p{
+    line-height:1.8;
+    color:#444;
+    white-space:pre-line;
+}
+    
+    #heartLayer{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:999;
+}
+</style>
+</head>
+
+<body>
+    <div id="heartLayer"></div>
+
+<div id="hearts"></div>
+<div id="sparkles"></div>
+
+<div class="container">
+
+    <button id="openBtn">Click Here ❤️</button>
+
+    <div class="envelope-wrapper" id="wrapper">
+
+        <div class="envelope" id="envelope">
+
+            <div class="back"></div>
+
+            <div class="letter">
+                <h2>Happy Birthday ❤️</h2>
+                <p id="message"></p>
+            </div>
+
+            <div class="front"></div>
+            <div class="flap"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* Hearts */
+for(let i=0;i<30;i++){
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="❤","💖";
+    h.style.left=Math.random()*100+"vw";
+    h.style.fontSize=(15+Math.random()*25)+"px";
+    h.style.animationDuration=(8+Math.random()*10)+"s";
+    document.body.appendChild(h);
+}
+
+/* Sparkles */
+for(let i=0;i<40;i++){
+    const s=document.createElement("div");
+    s.className="sparkle";
+    s.innerHTML="✨";
+    s.style.left=Math.random()*100+"vw";
+    s.style.top=Math.random()*100+"vh";
+    s.style.animationDelay=Math.random()*2+"s";
+    document.body.appendChild(s);
+}
+
+/* Typewriter */
+const text = `
+Happy 18th Birthday, my lovee
+‎
+‎It's finally midnight, and before anyone else gets the chance to fill your notifications with greetings, I wanted to be here to tell you how much you mean to me. Today is not only your birthday but also the beginning of a brand-new chapter in your life. Eighteen years ago, God gave this world someone truly special, and I'm incredibly grateful that our paths crossed and that I get to celebrate this day with you.
+‎
+‎Today marks your first day as an adult, and I hope you take a moment to appreciate how far you've come. You've faced challenges, learned lessons, grown through difficult moments, and continued moving forward even when things weren't easy. I know there are times when you doubt yourself, but I wish you could see yourself through my eyes. I see someone strong, caring, intelligent, beautiful, and capable of achieving so much more than she realizes.
+‎
+‎As you enter this new stage of life, there will be more responsibilities, more decisions to make, and more challenges to overcome. But there will also be new opportunities, new experiences, and new dreams waiting for you. I hope you never become afraid of growing older because every year adds another chapter to the amazing story that is your life. I hope you continue chasing your goals, believing in yourself, and refusing to let temporary setbacks define who you are.
+‎
+‎Thank you for being such an important part of my life. Thank you for every conversation, every laugh, every memory, every lesson, and every moment we've shared together. Thank you for staying by my side through good days and bad days. Thank you for your patience, your understanding, and the love you give so freely. There are so many things you've done for me that you may not even realize, but they have left a lasting impact on my life.
+‎
+‎You have brought happiness into my life in ways that words struggle to describe. Even on difficult days, just knowing you're there gives me comfort. You've made ordinary moments feel special, and you've given me memories that I will always treasure. Every day with you reminds me how lucky I am to have someone like you in my life.
+‎
+‎As your super duper best friend (manliligaw) I want you to know how proud I am of the person you've become. Not because you're perfect, but because of the way you continue to grow. Your kindness toward others, your determination when things get hard, and your ability to keep moving forward inspire me more than you know. I admire your strengths, and I even admire the way you keep trying despite your fears and uncertainties.
+‎
+‎On your 18th birthday, I pray that God blesses you abundantly. I pray that He guides your steps, protects your heart, strengthens your faith, and fills your life with peace and happiness. I pray that He opens doors of opportunity for you, helps you achieve your dreams, and surrounds you with people who genuinely care about you in college. Whenever life becomes difficult, I hope you remember that you never have to face everything alone. (Kahit bobo ako nandito parin ako)
+‎
+‎I also hope that this year becomes one of your most beautiful years yet. I hope you discover new things about yourself, create unforgettable memories, meet wonderful opportunities, and continue becoming the incredible woman you're meant to be. Don't be afraid to dream big. Don't be afraid to take chances. And don't let anyone convince you that you're not capable, because I know you are, ako pa.
+‎
+‎As we celebrate your first day of adulthood, I want you to remember something important: your worth is not measured by your achievements, your appearance, your mistakes, or what other people think about you. Your worth comes from who you are—a person who is loved, valued, and cherished by the people whose lives you've touched, including mine.
+‎
+‎And as you celebrate your 18th birthday tonight, I want to share one of my biggest goals with you. My goal is to continue working hard to become the man you deserve. My goal is to stand by your side through the good days and the difficult ones, to protect you when I can, support you when you need me, and love you with all my heart through every stage of our lives.
+‎
+‎One of my greatest goals is to someday call you my wife and fulfill the dream of marrying you. I dream of building a future with you.. A future where we come home to each other after a long day, where our house is filled with warmth, laughter, understanding, and love. Not just a house made of walls and a roof, but a true home where you feel safe, valued, respected, and deeply loved every single day.
+‎
+‎One of my greatest goals is for us to build a life together where, after a long day at work, you can come home knowing that you are loved, appreciated, and cared for. A home where we can laugh together, share our stories, support each other's dreams, and face life's challenges as a team. 
+‎
+‎I want to be the person who celebrates your victories, comforts you during hard times, listens to your stories, and reminds you that you never have to carry your burdens alone. I want to give you not only financial stability through hard work and dedication, but more importantly, a lifetime of genuine love, loyalty, care, and happiness. The kind of love that remains even when life gets difficult and the kind of home that always feels welcoming no matter how exhausting the day has been.
+‎
+‎A home filled not only with comfort, but with peace, understanding, and endless love.
+‎
+‎Thank you for allowing me to be part of your journey. Thank you for the trust, the love, and the memories we've shared. No matter what the future holds, I will always be grateful that I got the chance to know and love someone as wonderful as you.
+‎
+‎So tonight, on this very special day, celebrate yourself. Celebrate your growth, your victories, your lessons, your dreams, and the amazing person you've become. You deserve all the love, happiness, and blessings that come your way today.
+‎
+‎Happy 18th Birthday, my love!
+‎
+‎Welcome to adulthood. Welcome to a new chapter. Welcome to another year of becoming the incredible woman you were always meant to be.
+‎
+‎I love you, I'm proud of you, and I can't wait to see all the amazing things your future holds. Happy birthday, future wife.
+‎
+‎No matter how much time passes, I hope that when you look back on this day, you'll remember that there was someone who loved you deeply and sincerely, and who dreamed of growing old with you. I don't know exactly what the future holds for us, but I do know that one of my goal is to continue choosing you, loving you, and doing my best every day to build a beautiful future together with you.
+‎
+‎I LOVE YOU XAINNE KO❤️❤️ 
+    
+    love and sincerely from yours truly: Mab❤️
+
+    
+    
+    
+    ‎
+`;
+
+let i = 0;
+function typeWriter(){
+    if(i < text.length){
+        document.getElementById("message").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, -50);
+    }
+}
+
+/* Open */
+    function spawnHearts(){
+    const emojis = ["❤️","💖","💗","💘","💞","💓"];
+
+    for(let i=0;i<25;i++){
+        const heart = document.createElement("div");
+        heart.classList.add("FloatHeart");
+
+        heart.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+
+        // random position across screen
+        heart.style.left = Math.random()*100 + "vw";
+        heart.style.top = (60 + Math.random()*30) + "vh";
+
+        heart.style.fontSize = (14 + Math.random()*22) + "px";
+
+        document.getElementById("heartLayer").appendChild(h);
+
+        setTimeout(()=>{
+            heart.remove();
+        },2500);
+    }
+}
+   
+document.getElementById("openBtn").addEventListener("click", ()=>{
+
+    document.getElementById("openBtn").style.display="none";
+    document.getElementById("wrapper").style.display="block";
+
+    setTimeout(()=>{
+    document.getElementById("envelope").classList.add("open");
+    typeWriter();
+
+    spawnHearts(); // 💖 ADD THIS
+
+},500);
+
+});
+
+</script>
+    
+
+</body>
+</html>
